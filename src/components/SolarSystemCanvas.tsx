@@ -9,6 +9,7 @@ import CustomBackground from "./CustomBackground";
 import HoverInfoCard from "./HoverInfoCard";
 import SpeedControls from "./SpeedControls";
 import PlanetLabel from "./PlanetLabel";
+import PlanetInfoCard from "./PlanetInfoCard";
 import FlyThroughCamera from "./FlyThroughCamera";
 import { flyToPlanet } from "../utils/cameraUtils";
 import { planets, sunConfig } from "../utils/planetConfig";
@@ -21,22 +22,22 @@ const SolarSystemCanvas = () => {
   const [showOrbits, setShowOrbits] = useState(true);
   const [hoveredPlanet, setHoveredPlanet] = useState<PlanetConfig | null>(null);
   const [activePlanet, setActivePlanet] = useState<PlanetConfig | null>(null);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [hyperdriveActive, setHyperdriveActive] = useState(false);
   const [hyperdriveTriggered, setHyperdriveTriggered] = useState(false);
   const [hoveredOrbitRing, setHoveredOrbitRing] = useState<PlanetConfig | null>(
     null
   );
-  const [planetPOV, setPlanetPOV] = useState(false); // NEW
+  const [planetPOV, setPlanetPOV] = useState(false);
+  const [showInfoCard, setShowInfoCard] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const controlsRef = useRef<OrbitControlsImpl>(null);
+  const flyAnimationActiveRef = useRef(true);
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.5;
-      audioRef.current.play().catch(() => {});
-      lottieRef.current?.play();
+      audioRef.current.volume = 1;
     }
   }, []);
 
@@ -57,6 +58,36 @@ const SolarSystemCanvas = () => {
     setHyperdriveTriggered(true);
     setHyperdriveActive(true);
     setTimeout(() => setHyperdriveActive(false), 6000);
+  };
+
+  const handleTogglePOV = () => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+
+    const resetCamera = () => {
+      controls.object.position.set(0, 0, 80);
+      controls.target.set(0, 0, 0);
+      controls.update();
+
+      flyAnimationActiveRef.current = false;
+      if (planetPOV) {
+        flyAnimationActiveRef.current = false;
+        resetCamera();
+        setPlanetPOV(false);
+      }
+    };
+
+    // Exit POV: only reset if planet POV is active
+    if (planetPOV) {
+      resetCamera();
+      setPlanetPOV(false);
+      setActivePlanet(null); // ⬅ ensure activePlanet is cleared early
+    } else {
+      // Enter POV: only enable if a planet is selected
+      if (activePlanet) {
+        setPlanetPOV(true);
+      }
+    }
   };
 
   return (
@@ -100,44 +131,20 @@ const SolarSystemCanvas = () => {
           />
         </button>
         <button
-          onClick={() => setPlanetPOV((prev) => !prev)}
+          onClick={handleTogglePOV}
+          disabled={!activePlanet}
           className="h-12 px-4 text-white rounded-full backdrop-blur bg-gradient-to-br from-indigo-800 to-blue-700 border border-white/20 shadow-md hover:scale-105 transition duration-300"
         >
-          {planetPOV ? "Exit POV" : "Enter Planet POV"}
+          {activePlanet ? "Exit POV" : "Enter Planet POV"}
         </button>
       </div>
 
-      {/*Expanded info panel */}
-      {activePlanet && (
-        <div className="absolute top-6 right-6 w-80 p-6 bg-black/80 text-white rounded-xl shadow-xl border border-indigo-700 z-50 backdrop-blur-sm animate-slide-in-right">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">{activePlanet.name}</h2>
-            <button
-              onClick={() => setActivePlanet(null)}
-              className="text-gray-400 hover:text-red-500 transition"
-            >
-              ✕
-            </button>
-          </div>
-          <p className="text-sm mb-1">
-            <strong>Orbit Radius:</strong> {activePlanet.orbitRadius.toFixed(2)}{" "}
-            AU
-          </p>
-          <p className="text-sm mb-1">
-            <strong>Size:</strong> {activePlanet.size} Earth radii
-          </p>
-          <p className="text-sm mb-1">
-            <strong>Eccentricity:</strong>{" "}
-            {activePlanet.eccentricity?.toFixed(2)}
-          </p>
-          <div className="mt-4">
-            <img
-              src={activePlanet.textureUrl ?? "/textures/default_planet.jpg"}
-              alt={`Planet ${activePlanet.name}`}
-              className="rounded border object-cover w-full h-32"
-            />
-          </div>
-        </div>
+      {/*Expanded Info Card */}
+      {activePlanet && showInfoCard && (
+        <PlanetInfoCard
+          planet={activePlanet}
+          onClose={() => setShowInfoCard(false)}
+        />
       )}
 
       {/*3D Canvas */}
@@ -169,6 +176,8 @@ const SolarSystemCanvas = () => {
                   eccentricity={planet.eccentricity}
                   onClick={() => {
                     setActivePlanet(planet);
+                    setShowInfoCard(true);
+
                     flyToPlanet(
                       controlsRef.current,
                       new Vector3(planet.orbitRadius, 0, 0)
@@ -186,6 +195,8 @@ const SolarSystemCanvas = () => {
                 onPointerOut={() => setHoveredPlanet(null)}
                 onClick={() => {
                   setActivePlanet(planet);
+                  setShowInfoCard(true);
+
                   flyToPlanet(
                     controlsRef.current,
                     new Vector3(planet.orbitRadius, 0, 0)
@@ -202,7 +213,10 @@ const SolarSystemCanvas = () => {
               )}
             </group>
           ))}
-          <FlyThroughCamera />
+          <FlyThroughCamera
+            planetPOV={planetPOV}
+            flyAnimationActiveRef={flyAnimationActiveRef}
+          />
         </Suspense>
         <OrbitControls ref={controlsRef} enableZoom enablePan enableRotate />
       </Canvas>
