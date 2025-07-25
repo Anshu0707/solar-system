@@ -9,7 +9,9 @@ export type PlanetConfig = {
   textureUrl?: string;
   emissive?: string;
   ringColor?: string;
-  eccentricity?: number; // Elliptical orbit factor (0 = perfect circle)
+  eccentricity?: number; 
+  initialAngle?: number; 
+  onClick?: () => void; 
 };
 
 export const planets: PlanetConfig[] = [
@@ -21,7 +23,7 @@ export const planets: PlanetConfig[] = [
     textureUrl: "/textures/mercury.jpg",
     emissive: "#222222",
     ringColor: "#888888",
-    eccentricity: 0.4, // 🔸 Visual exaggeration
+    eccentricity: 0.4, 
   },
   {
     name: "Venus",
@@ -31,7 +33,7 @@ export const planets: PlanetConfig[] = [
     textureUrl: "/textures/venus.jpg",
     emissive: "#cccc99",
     ringColor: "#cc9966",
-    eccentricity: 0.1, // 🔸 Slight bump for visibility
+    eccentricity: 0.1, 
   },
   {
     name: "Earth",
@@ -41,7 +43,7 @@ export const planets: PlanetConfig[] = [
     textureUrl: "/textures/earth.jpg",
     emissive: "#cccc99",
     ringColor: "#4a90e2",
-    eccentricity: 0.15, // 🔸 Boosted for elliptical path clarity
+    eccentricity: 0.15, 
   },
   {
     name: "Mars",

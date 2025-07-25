@@ -28,7 +28,7 @@ const Planet = ({
     const e = eccentricity;
     const b = a * Math.sqrt(1 - e ** 2); // semi-minor axis
 
-    const x = Math.cos(angle) * a - a * e; // ← Shift center to put sun at focus
+    const x = Math.cos(angle) * a - a * e; //  Shiftibg center to put sun at focus
     const z = Math.sin(angle) * b;
 
     groupRef.current.position.set(x, 0, z);

@@ -24,9 +24,9 @@ const OrbitRing = ({
 
     for (let i = 0; i <= segments; i++) {
       const angle = (i / segments) * 2 * Math.PI;
-      const x = Math.cos(angle) * a - a * e; // Offset to focus
+      const x = Math.cos(angle) * a - a * e;
       const z = Math.sin(angle) * b;
-      pts.push([x, 0, z]);
+      pts.push([x, 0, z] as const);
     }
 
     return pts;

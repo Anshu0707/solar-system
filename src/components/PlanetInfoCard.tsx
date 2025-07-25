@@ -1,4 +1,3 @@
-import React from "react";
 import type { PlanetConfig } from "../utils/planetConfig";
 
 type Props = {

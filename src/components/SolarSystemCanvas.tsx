@@ -11,14 +11,14 @@ import CustomBackground from "./CustomBackground";
 import PlanetInfoCard from "./PlanetInfoCard";
 import type { PlanetConfig } from "../utils/planetConfig";
 
-// 🌍 Floating Planet Label
+//  Floating Planet Label
 const PlanetLabel = ({ name, radius }: { name: string; radius: number }) => (
-  <Text position={[radius, 0.6, 0]} fontSize={0.4} color="white" billboard>
+  <Text position={[radius, 0.6, 0]} fontSize={0.4} color="white">
     {name}
   </Text>
 );
 
-// 📸 Fly-in Camera Animation
+//  Fly-in Camera Animation
 const FlyThroughCamera = () => {
   const { camera } = useThree();
   const tRef = useRef(0);
@@ -67,12 +67,12 @@ const SolarSystemCanvas = () => {
 
   return (
     <>
-      {/* 🎵 Audio Element */}
+      {/* Audio Element */}
       <audio ref={audioRef} src="/audio/audio-1.mp3" loop />
 
-      {/* 🎛 UI Controls */}
+      {/* UI Controls */}
       <div className="absolute top-6 left-6 z-50 flex items-center gap-4">
-        {/* 🌌 Toggle Orbit Button */}
+        {/*Toggle Orbit Button */}
         <button
           onClick={() => setShowOrbits((prev) => !prev)}
           className="h-12 px-6 py-2 flex items-center justify-center text-white font-semibold text-sm rounded-full backdrop-blur-md bg-gradient-to-br from-purple-800/60 to-indigo-700/60 border border-white/20 shadow-lg hover:scale-105 hover:brightness-110 hover:shadow-indigo-500 transition-all duration-300"
@@ -80,7 +80,7 @@ const SolarSystemCanvas = () => {
           {showOrbits ? "Hide Orbits" : "Show Orbits"}
         </button>
 
-        {/* 🎧 Audio Toggle Button with Wave Animation */}
+        {/* Audio Toggle Button */}
         <button
           onClick={toggleAudio}
           className={`w-12 h-12 flex items-center justify-center rounded-full p-1 bg-gradient-to-tr from-blue-800 to-indigo-700 border border-white/20 shadow-md hover:scale-110 transition duration-300 ${
@@ -98,7 +98,7 @@ const SolarSystemCanvas = () => {
         </button>
       </div>
 
-      {/* 🪐 Planet Info Card */}
+      {/* Planet Info Card */}
       {selectedPlanet && (
         <PlanetInfoCard
           planet={selectedPlanet}
@@ -106,7 +106,7 @@ const SolarSystemCanvas = () => {
         />
       )}
 
-      {/* 🛰️ Solar System Canvas */}
+      {/* Solar System Canvas*/}
       <Canvas
         style={{ width: "100vw", height: "100vh", display: "block" }}
         camera={{ position: [0, 0, 80], fov: 35 }}
