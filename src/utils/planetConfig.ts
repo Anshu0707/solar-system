@@ -96,3 +96,13 @@ export const planets: PlanetConfig[] = [
     eccentricity: 0.12,
   },
 ];
+
+export const sunConfig: PlanetConfig = {
+  name: "Sun",
+  orbitRadius: 0,
+  size: 109, // Earth radii
+  orbitSpeed: 0,
+  eccentricity: 0,
+  textureUrl: "/textures/sun.jpg",
+  emissive: "#ffaa00",
+};

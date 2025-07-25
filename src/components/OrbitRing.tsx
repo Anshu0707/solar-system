@@ -7,6 +7,8 @@ type OrbitRingProps = {
   color?: string;
   eccentricity?: number;
   onClick?: () => void;
+  onPointerOver?: () => void;
+  onPointerOut?: () => void;
 };
 
 const OrbitRing = ({
@@ -14,6 +16,8 @@ const OrbitRing = ({
   color = "#888888",
   eccentricity = 0.2,
   onClick,
+  onPointerOver,
+  onPointerOut,
 }: OrbitRingProps) => {
   const points = useMemo(() => {
     const pts = [];
@@ -36,10 +40,12 @@ const OrbitRing = ({
     <Line
       points={points}
       color={new Color(color)}
-      lineWidth={1}
+      lineWidth={2.5}
       transparent
       opacity={0.25}
       onClick={onClick}
+      onPointerOver={onPointerOver}
+      onPointerOut={onPointerOut}
     />
   );
 };

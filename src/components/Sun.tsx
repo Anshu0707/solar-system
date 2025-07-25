@@ -6,18 +6,17 @@ const Sun = () => {
 
   return (
     <>
-      {/* ☀️ Bright textured sun with emissive glow */}
       <mesh>
         <sphereGeometry args={[2, 64, 64]} />
         <meshStandardMaterial
           map={sunTexture}
-          emissive={"#ff6600"} // Deep orange glow
+          emissive={"#ff6600"}
           emissiveMap={sunTexture}
-          emissiveIntensity={2} // Strong visible glow, not whitewashed
+          emissiveIntensity={2} // This controls the glow intensity
         />
       </mesh>
 
-      {/* 💡 Strong point light to simulate sun illumination */}
+      {/* Bright point light source */}
       <pointLight
         color={"#ffaa00"}
         intensity={6}
