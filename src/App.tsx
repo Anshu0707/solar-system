@@ -1,5 +1,5 @@
 import FullScreenLayout from "./layout/FullScreenLayout";
-import SolarSystemCanvas from "./components/SolarSystemCanvas";
+import SolarSystemCanvas from "./pages/SolarSystemCanvas";
 
 function App() {
   return (
