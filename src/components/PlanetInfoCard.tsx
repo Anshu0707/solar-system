@@ -10,7 +10,7 @@ const PlanetInfoCard = ({ planet, onClose }: Props) => {
   const realData = realPlanetData[planet.name];
 
   return (
-    <div className="absolute top-6 right-6 w-80 p-6 bg-black text-white rounded-xl shadow-xl border border-indigo-700 z-40 backdrop-blur-sm animate-slide-in-right">
+    <div className="absolute top-6 right-6 w-80 p-5 bg-gradient-to-br from-gray-900 via-black to-gray-800 text-green-300 rounded-md border-2 border-cyan-500 shadow-[0_0_20px_rgba(0,255,0,0.3)] z-[60] backdrop-blur-md font-mono">
       <button
         className="absolute top-2 right-2 text-gray-300 hover:text-red-500"
         onClick={onClose}

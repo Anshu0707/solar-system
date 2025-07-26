@@ -19,7 +19,7 @@ import { OrbitControls } from "@react-three/drei";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 const SolarSystemCanvas = () => {
-  const [showOrbits, setShowOrbits] = useState(true);
+  const [showOrbits, setShowOrbits] = useState(false);
   const [hoveredPlanet, setHoveredPlanet] = useState<PlanetConfig | null>(null);
   const [activePlanet, setActivePlanet] = useState<PlanetConfig | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
